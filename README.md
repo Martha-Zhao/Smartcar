@@ -4,4 +4,5 @@ pyb的原始库
 
 dig.gif 供M文件使用
 dig.jpg 为opencv-python使用
+opencv版本3.4.1
 
