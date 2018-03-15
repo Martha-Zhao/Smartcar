@@ -12,25 +12,28 @@ import sys
 def main(argv):
     
     #Load Image in form of Grayscale
-    filename = argv[0] if len(argv) > 0 else "../data/dig.jpg"
+    filename = argv[0] if len(argv) > 0 else "../data/dig.jpg" #Load Image
     print ("filename is ",filename)
 
-    Img_gray = cv2.imread(filename,cv2.IMREAD_GRAYSCALE)
+    Img_gray = cv2.imread(filename,cv2.IMREAD_GRAYSCALE) #read img in grayscale
 
-    if Img_gray is None :
+    if Img_gray is None : #error in Load Image wrong
         print("Error opening image!")
         return -1
     
-    cv2.imshow("dig",Img_gray) #显示图像
+    cv2.imshow("dig",Img_gray) #Show Image
 
-    ## [Change color]
-    img_collon ,img_row = Img_gray.shape  #找到图像大小
+    img_collon ,img_row = Img_gray.shape  #Get Image shape(collon and row)
 
+    ## [binary]
+    #img_bin is the result of Binarization 
+    ret,img_bin = cv2.threshold(Img_gray,127,255,0)
+    cv2.imshow("img_bin",img_bin)
+    
+    image,contours,hierarchy = cv2.findContours(img_bin,
+        cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
 
-    ##[findContours]
-    ret,thresh = cv2.threshold(Img_gray,127,255,0)
-    image,contours,hierarchy = cv2.findContours(thresh,
-        cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+    
     color = cv2.cvtColor(Img_gray,cv2.COLOR_GRAY2BGR)
     img = cv2.drawContours(color,contours,-1,(255,0,0),2)
     cv2.imshow('contours',color)
