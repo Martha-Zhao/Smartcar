@@ -21,23 +21,51 @@ def main(argv):
         print("Error opening image!")
         return -1
     
-    cv2.imshow("dig",Img_gray) #Show Image
+    #cv2.imshow("dig",Img_gray) #Show Image
 
     img_collon ,img_row = Img_gray.shape  #Get Image shape(collon and row)
 
     ## [binary]
     #img_bin is the result of Binarization 
     ret,img_bin = cv2.threshold(Img_gray,127,255,0)
-    cv2.imshow("img_bin",img_bin)
-    
-    image,contours,hierarchy = cv2.findContours(img_bin,
+    #cv2.imshow("img_bin",img_bin)
+    ## [find contours]
+    #change to color img
+    img_color = cv2.cvtColor(Img_gray,cv2.COLOR_GRAY2BGR)
+
+    #cv2.RETR_APPROX_SAMPLE 仅保存轮廓拐点信息
+    #cv2.RETR_EXTERNAL 只检测最外层轮廓 保存轮廓上的所有点
+    img_ext,contours_external,hie_external = cv2.findContours(img_bin,
         cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+    img_external = cv2.drawContours(img_color,contours_external,-1,(255,0,0),2)
+    #cv2.imshow('contours',img_external)
+    print("contours_external is ",contours_external[0])
+    print ("the number of all contours_externalis ", len(contours_external))
+
+    #cv2.RETR_LIST 检测所有轮廓，但是不建立等级
+    img_lis,contours_list,hie_list = cv2.findContours(img_bin,
+        cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
+    img_list = cv2.drawContours(img_color,contours_list,-1,(255,0,0),2)
+    #cv2.imshow("list",img_list)
+    print("contours_list is ",contours_list[0])
+    print ("the number of all contours_list is ",len(contours_list))
 
     
-    color = cv2.cvtColor(Img_gray,cv2.COLOR_GRAY2BGR)
-    img = cv2.drawContours(color,contours,-1,(255,0,0),2)
-    cv2.imshow('contours',color)
+    #cv2.RETR_TREE 检测所有轮廓，所有轮廓建立等级树
+    img_tre,contours_tree,his_tree = cv2.findContours(img_bin,
+        cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+    img_tree = cv2.drawContours(img_color,contours_tree,-1,(255,0,0),2)
+    #cv2.imshow("img_tree",img_tree)
+    print("contours_tree is ", contours_tree[0])
+    print("the number of all contours_tree is ",len(contours_tree))
     
+    #cv2.RETR_CCOMP 检测所有轮廓 但是只建立两个等级关系
+    img_ccomp, contours_ccomp,his_ccomp = cv2.findContours(img_bin,
+        cv2.RETR_CCOMP,cv2.CHAIN_APPROX_SIMPLE)
+    img_ccomp = cv2.drawContours(img_color,contours_ccomp,-1,(255,0,0),2)
+    #cv2.imshow("img_ccomp",img_ccomp)
+    print ("contours_ccomp is ",contours_ccomp[0])
+    print ("the number of all contours_ccomps is ",len(contours_ccomp))
     
 
 
