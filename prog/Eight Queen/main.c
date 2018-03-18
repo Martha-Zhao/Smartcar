@@ -77,13 +77,6 @@ void eight_queen (int index)
 
 int main(int argc, char* argv[])
 {
-    int a = 0;
-    int b = 1;
-    int c = 2;
-
-    c = a + b;
-    a = c + b;
-    b = a + c;
     eight_queen(0);
     printf("total = %d \n",gcount);
     return 1;
