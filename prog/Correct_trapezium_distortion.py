@@ -66,22 +66,23 @@ def main (argv):
     ##[cut]
     img_cut = img_des[:,25:175]
     cv2.imshow("img_cut",img_cut)
-    ##腐蚀与膨胀
-    kernel = np.ones((5,5),dtype = np.uint8)
-    img_cut = cv2.morphologyEx(img_cut, cv2.MORPH_CLOSE, kernel)
-
+    ##膨胀
+    cover = np.ones((5,5),dtype = np.uint8)
+    img_dila = cv2.dilate(img_cut,cover,iterations = 1)
 
     ##[Canny]
-    img_canny = cv2.Canny(img_cut,50,80)
-    cv2.imshow("Canny",img_canny)
+    #img_canny = cv2.Canny(img_cut,50,80)
+    #cv2.imshow("Canny",img_canny)
 
-    img_contours,contours,hierarchy = cv2.findContours(img_canny,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-    x,y,w,h = cv2.boundingRect(contours[4])
+    img_contours,contours,hierarchy = cv2.findContours(img_dila,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+    #x,y,w,h = cv2.boundingRect(contours[4])
+
+    img_color = cv2.cvtColor(img_dila,cv2.COLOR_GRAY2BGR)
+    cv2.drawContours(img_color,contours,2,(0,0,255),3)
+    cv2.imshow("img_color",img_color)
     
-    cv2.imshow("img_add",img_cut[x:x+w,y:y+h])
+    #cv2.imshow("img_add",img_cut[x:x+w,y:y+h])
     
-
-
 
 
 if __name__ == "__main__":
