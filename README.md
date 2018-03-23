@@ -15,3 +15,5 @@ Hough.py失效
 
 
 下一步通过对摄像头采集到的信息进行分析，判断当前所有皇后的位置，并与已知的所有可能进行分析比对，得到最终的行走路径
+
+https://www.pyimagesearch.com/2017/07/17/credit-card-ocr-with-opencv-and-python/
