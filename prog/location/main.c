@@ -4,8 +4,9 @@
 
 int main()
 {
+    //variables definition
+    int loc[92] = {0};
     //All answers
-    int loc[8] = {0};
     int ans[92][8] = {
                { 1 ,   5 ,   8 ,   6 ,   3 ,   7 ,   2 ,   4},
                { 1 ,   6 ,   8 ,   3 ,   7 ,   4 ,   2 ,   5},
@@ -100,17 +101,18 @@ int main()
                { 8 ,   3 ,   1 ,   6 ,   2 ,   5 ,   7 ,   4},
                { 8 ,   4 ,   1 ,   3 ,   6 ,   2 ,   7 ,   5}
                };
-
+    int count_zeros = 0;
     // random location
     srand((unsigned)time(0));
+    // create random location
     printf("location is ");
     for (int i = 0; i<8;i++)
     {
         loc[i] = rand()%64;
         printf("%d ", loc[i]);
     }
-    printf("\n");
-
+    printf("\n All answers are\n");
+    // change the form of ans[][]
     for (int i = 0; i < 92 ;i++)
     {
         for (int j = 0; j<8; j++)
@@ -121,6 +123,18 @@ int main()
         printf("\n");
 
     }
+
+
+
+    //match zeros
+//    for (int i = 0; i < 92; i++)
+//    {
+//        for (int j=0; j < 8;j++)
+//        {
+//            if loc[j] == ans[i][j]
+//        }
+//
+//    }
 
     return 0;
 }
