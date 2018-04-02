@@ -113,7 +113,7 @@ int main()
     // create random location
     for (int i = 0; i<8;i++)
     {
-        loc[i] = rand()%64;
+        loc[i] = rand()%63+1;
         // test whether repeated
         for (int t = 0;t<i;t++)
         {
