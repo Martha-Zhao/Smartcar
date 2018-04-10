@@ -1,18 +1,28 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void sot (int *dis_p, int length)
+void sot (int *dis_p, int *loc_p, int length)
 {
-    int *p;
-    p = dis_p;
-    for (int i = 0;i < length; i++)
+    int temp;
+    for (int i = 0;i <= length; i++)
     {
-        for (int j = 0;j < length; j++)
+        for (int j = 0;j < length - 1; j++)
         {
-            printf("dis[%d][%d] = %d  ",i,j,*p);
-            p++;
+            if (*dis_p > *(dis_p + 1))
+            {
+               temp = *dis_p;
+               *dis_p = *(dis_p + 1);
+               *(dis_p + 1) = temp;
+
+               temp = *loc_p;
+               *loc_p = *(loc_p + 1);
+               *(loc_p + 1) = temp;
+            }
+            dis_p++;
+            loc_p++;
         }
-        p += 8 - length;
+        dis_p += 8 - length;
+        loc_p += 8 - length;
         printf("\n");
     }
 }
@@ -96,7 +106,18 @@ int main()
     printf("\n");
 
 
-    sot(dis[0],length);
+    sot(dis[0],location[0],length);
+
+    for (int i = 0; i < length; i++)
+    {
+        for (int j = 0; j < length; j++)
+        {
+            printf("%d ",dis[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+
 
     return 0;
 }
