@@ -1,25 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
-//void sot (int *p, int length,int width)
-//{
-//    //int *p = loc;
-//    for (int i = 0;i < width; i++)
-//    {
-//        for (int j = 0;j < length; j++)
-//        {
-//            printf("p[%d][%d] = %d  ",i,j,*p);
-//            p++;
-//        }
-//        printf("\n");
-//    }
-//
-//
-//    for (int i = 0; i < length; i++,p++)
-//    {
-//        if (*p % 2 == 0)
-//            *p = 0;
-//    }
-//}
+
+void sot (int *dis_p, int length)
+{
+    int *p;
+    p = dis_p;
+    for (int i = 0;i < length; i++)
+    {
+        for (int j = 0;j < length; j++)
+        {
+            printf("dis[%d][%d] = %d  ",i,j,*p);
+            p++;
+        }
+        p += 8 - length;
+        printf("\n");
+    }
+}
 
 
 int main()
@@ -27,9 +23,10 @@ int main()
     /***********************参数定义********************************/
     int loc[4] = {9,19,20,54};
     int ans[4] = {13,35,47,50};
-    int p[8] = {0},q[8] = {0},r[8] = {0}, s[8] = {0};
     int *loc_p = loc;
     int *ans_p = ans;
+    int p[8] = {0},q[8] = {0},r[8] = {0}, s[8] = {0};
+    int *p_p,*p_q,*p_r,*p_s;
     int dis[8][8] = {0};
     int dis_sum = {0};
     int length = 4;
@@ -44,10 +41,10 @@ int main()
 
 
     /***********************预处理********************************/
-    //sot(loc,8,2);
+
     loc_p = loc;
     ans_p = ans;
-    
+
     printf("change form of loc and ans\n");
     for (int i = 0; i < length; i++,loc_p++,ans_p++)
     {
@@ -77,20 +74,29 @@ int main()
 
 
 
-    loc_p = loc;
-    ans_p = ans;
+    p_p = p;
+    p_q = q;
+    p_r = r;
+    p_s = s;
     for (int i = 0; i < length; i++)
     {
-        ans_p = ans;
+        p_r = r;
+        p_s = s;
         for (int j = 0; j < length; j++)
         {
-           dis[i][j] = abs(*loc_p - *ans_p);
-           ans_p++;
+           dis[i][j] = abs(*p_p - *p_r) + abs(*p_q-*p_s);
+           p_r++;
+           p_s++;
            printf("%d ",dis[i][j]);
         }
-        loc_p++;
+        p_p++;
+        p_q++;
         printf("\n");
     }
     printf("\n");
+
+
+    sot(dis[0],length);
+
     return 0;
 }
