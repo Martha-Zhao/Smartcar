@@ -125,8 +125,8 @@ int main()
     int count_zeros [92][16] = {0};
     int *count_zeros_p;
 
-    int loc_changed[][8] = {0};
-    int ans_changed[][8] = {0};
+    int loc_changed[20][8] = {0};
+    int ans_changed[20][8] = {0};
     int optimal_solution_count = 0;
 
     int max_zeros = 0;
