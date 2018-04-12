@@ -9,9 +9,9 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "shoutest_route.h"
+#include "shoutest_route.h"//计算最短路径头文件
 
-extern int solution[8][8];
+extern int solution[8][8]; //最优解方案
 
 int main()
 {
@@ -113,28 +113,28 @@ int main()
                };
 
     /**********随机生成棋子位置************/
-    int *loc_p;
-    int *loc_q;
-    int *ans_p;
+    int *loc_p; //随机棋子位置数组指针
+    int *loc_q; //棋子排序时用到的随机棋子位置数组指针
+    int *ans_p; //解数组的指针
 
-    int temp_sort = 0;
+    int temp_sort = 0; //排序临时变量
 
     /**********match zeros*****************/
-    int k;
+    int k; //0的个数临时变量
 
-    int count_zeros [92][16] = {0};
-    int *count_zeros_p;
+    int count_zeros [92][16] = {0}; //所有方案0的个数数组
+    int *count_zeros_p; //所有方案0的个数数组的指针
 
-    int loc_changed[20][8] = {0};
-    int ans_changed[20][8] = {0};
-    int optimal_solution_count = 0;
+    int loc_changed[20][8] = {0}; //需要移动的棋子的位置数组
+    int ans_changed[20][8] = {0}; //棋子移动的目标位置数组
+    int optimal_solution_count = 0; //可行解计数
 
-    int max_zeros = 0;
-    int min_s = 64;
-    int solution_num = 0;
-    int f_r_t = 0;
-    struct  find_route *best_ans_loc;
-    struct find_route *f_r_p;
+    int max_zeros = 0; //0最多的个数
+    int min_s = 64; //总移动距离的最小值
+    int solution_num = 0; //最有方案序号
+    int f_r_t = 0; //struct shoutest——route 返回指针临时变量
+    struct  find_route *best_ans_loc; //struct shoutest——route 返回指针
+    struct find_route *f_r_p; ////struct shoutest——route 返回指针
 
     /******************per edition*************************/
      //random location
@@ -145,14 +145,14 @@ int main()
     loc_p = loc;
     for (; loc_p <= &loc[7]; loc_p++)
     {
-        *loc_p = rand()%63+1;
-        printf("%d ",*loc_p);
+        *loc_p = rand()%63+1; //在1-64中随机生成8个数
+        printf("%d ",*loc_p); //打印
         // test whether repeated
-        for (loc_q = loc; loc_q < loc_p; loc_q++)
+        for (loc_q = loc; loc_q < loc_p; loc_q++) //查重
         {
             if (*loc_p == *loc_q) //repeated
             {
-                // print random location
+                // print random location//找到重复 退格
                 if (*loc_p > 9)
                     printf("\b\b\b");
                 else
@@ -166,11 +166,11 @@ int main()
     printf("\n");
 
      //sort
-    printf("\nlocation sorted\n");
+    printf("\nlocation sorted\n");//排序
 
-    for ( loc_p = loc; loc_p <= &loc[7]; loc_p ++ )
+    for ( loc_p = loc; loc_p <= &loc[7]; loc_p ++ ) //i=0:7
     {
-        for ( loc_q = loc_p+1; loc_q <= &loc[7];loc_q++ )
+        for ( loc_q = loc_p+1; loc_q <= &loc[7];loc_q++ ) //j=i+1:7
         {
             if ( *loc_q < *loc_p )
             {
@@ -231,15 +231,15 @@ int main()
     /******optimal solution round one************/
     printf("\nzeros matched\n");
 
-    loc_p = loc_changed[0];
-    ans_p = ans_changed[0];
+    loc_p = loc_changed[0]; //loc_changed中保存去掉相同位置的棋子位置
+    ans_p = ans_changed[0]; //loc_changed中保存去掉相同位置的目标位置
     for (int i = 0; i<92; i++)
     {
-        if ( count_zeros[i][0] == max_zeros )
+        if ( count_zeros[i][0] == max_zeros ) //找到合理解
         {
-            optimal_solution_count++;
+            optimal_solution_count++; //合理解个数+1
 //            optimal_solution[optimal_solution_count-1] = i;
-            printf("%d ",i+1);
+            printf("%d ",i+1); //打印当前合理解
             printf("\nmatched loc is\n");
             for (int j = 0;j<8; j++)
                 printf("%d   %d\n",loc[j],ans[i][j]);//打印匹配结果
@@ -250,7 +250,7 @@ int main()
             }
             printf("\n");
 
-            count_zeros_p = count_zeros[i];
+            count_zeros_p = count_zeros[i];//去掉0
             count_zeros_p += 1;  //count_zeros_p指向count_zeros[1]
             for (int j = 0; j < 8; j++)
             {
@@ -258,15 +258,15 @@ int main()
                     count_zeros_p += 2;
                 else
                 {
-                    *loc_p = loc[j]; //loc_changed
+                    *loc_p = loc[j]; //loc_changed 去掉loc中的0
                     loc_p++;
                 }
             }
-            loc_p += max_zeros ;
+            loc_p += max_zeros ;//loc_p指向loc_changed的下一行
 
             count_zeros_p = count_zeros[i];
             count_zeros_p += 2;  //count_zeros_p指向count_zeros[2]
-            for (int j = 0; j < 8; j++)
+            for (int j = 0; j < 8; j++) //去掉合理解中的0
             {
                 if (j == *count_zeros_p)
                     count_zeros_p += 2;
@@ -276,36 +276,36 @@ int main()
                     ans_p++;
                 }
             }
-            ans_p += max_zeros ;
+            ans_p += max_zeros ;//ans_p指向ans_changed的下一行
         }
     }
 
     printf("\noptimal_solution_count = %d \n",optimal_solution_count);//打印最优解的总数
 
-    loc_p = loc_changed[0];
-    ans_p = ans_changed[0];
+//    loc_p = loc_changed[0];//从第一种解开始求需要走的路径
+//    ans_p = ans_changed[0];//对应第一种方案
 
-    for ( int i = 0; i < optimal_solution_count; i++, loc_p += max_zeros, ans_p += max_zeros)
+    for ( int i = 0; i < optimal_solution_count; i++, loc_p += max_zeros, ans_p += max_zeros)//遍历合理解
     {
-        printf("solution %d is :\n",i+1);
+        printf("solution %d is :\n",i+1); //打印当前合理解的序号
 
-        loc_p = loc_changed[i];
-        ans_p = ans_changed[i];
-        for ( int j = 0; j < (8 - max_zeros); j++,loc_p++,ans_p++)
+        loc_p = loc_changed[i];//第i种解
+        ans_p = ans_changed[i];//第i种方案
+        for ( int j = 0; j < (8 - max_zeros); j++,loc_p++,ans_p++) //输出当前方案
         {
             printf("%d  %d\n",*loc_p, *ans_p);
         }
         printf("\n\n");
-        loc_p = loc_changed[i];
-        ans_p = ans_changed[i];
+        loc_p = loc_changed[i];//指针回归loc_changed[i][0]
+        ans_p = ans_changed[i];//指针回归ans_changed[i][0]
 
-        f_r_p = best_ans(loc_p, ans_p, (8-max_zeros));
-        f_r_t = *f_r_p->p;
+        f_r_p = best_ans(loc_p, ans_p, (8-max_zeros)); //调用子函数求解第i种方案的最优路径
+        f_r_t = *f_r_p->p;//解保存的数组
         printf("solution[%d] = %d\n",i,f_r_t);
-        printf("min_sum[%d] = %d\n",i,f_r_p->min_sum);
-        printf("turn[%d] is %d\n",i,f_r_p->turn);
+        printf("min_sum[%d] = %d\n",i,f_r_p->min_sum);//输出当前方案路径
+        printf("turn[%d] is %d\n",i,f_r_p->turn); //执行顺序
 
-        if (f_r_p->min_sum < min_s)
+        if (f_r_p->min_sum < min_s)//定位指针到best_ans_loc
         {
             min_s = f_r_p->min_sum;
             solution_num = i;
@@ -314,10 +314,10 @@ int main()
         }
     }
 
-    printf("best solution is %d\n",solution_num);
-    printf("solution = %d\n",f_r_t);
-    printf("min_sum = %d\n",best_ans_loc->min_sum);
-    printf("turn is %d\n",best_ans_loc->turn);
+    printf("best solution is %d\n",solution_num); //输出最优解序号
+    printf("solution = %d\n",f_r_t); //输出最优解
+    printf("min_sum = %d\n",best_ans_loc->min_sum); //输出最优解路径
+    printf("turn is %d\n",best_ans_loc->turn); //输出最优解顺序
 
     return 0;
 }
