@@ -6,6 +6,7 @@
 
 import time
 from pyb import UART
+import json
 
 # Always pass UART 3 for the UART number for your OpenMV Cam.
 # The second argument is the UART baud rate. For a more advanced UART control
@@ -14,9 +15,17 @@ uart = UART(3, 115200)
 uart.init (115200,bits = 8,parity = None, stop = 1)
 
 while(True):
-    for i in range (10):
-        uart.writechar(i)
+    #for i in range (10):
+        #uart.writechar(i)
         #uart.write("\r")
     #uart.write("Hello World!\r")
-        print (i,"\r")
+        #print (i,"\r")
+    #if uart.any():
+        #temp = uart.readline()
+        #print(temp)
+    user = [11,12]
+    uart.write(json.dumps(user[0]))
+    #uart.write(user[0])
+    #print (json.dumps(user[0]))
+    print(user[0])
     time.sleep(1000)
