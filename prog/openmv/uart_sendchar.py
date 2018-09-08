@@ -23,9 +23,12 @@ while(True):
     #if uart.any():
         #temp = uart.readline()
         #print(temp)
-    user = [11,12]
-    uart.write(json.dumps(user[0]))
+    #user = [11,12]
+    #uart.write(json.dumps(user[0]))
     #uart.write(user[0])
     #print (json.dumps(user[0]))
-    print(user[0])
+    print (0)
+    print (1)
+    uart.writechar(0)
+    uart.writechar(1)
     time.sleep(1000)
